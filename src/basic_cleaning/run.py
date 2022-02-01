@@ -39,13 +39,13 @@ def go(args):
     logger.info("Convert dataframe to csv format")
     df.to_csv("clean_sample.csv", index=False)
 
+
+    logger.info("Logging artifact")
     artifact = wandb.Artifact(
         args.output_artifact,
         type=args.output_type,
         description=args.output_description,
      )
-
-    logger.info("Logging artifact")
     run.log_artifact(artifact)
 
 if __name__ == "__main__":
