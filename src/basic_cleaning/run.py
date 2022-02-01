@@ -28,16 +28,14 @@ def go(args):
     df = pd.read_csv(artifact_local_path)
 
     logger.info("Set Price min-max range")
-    min_price = 10
-    max_price = 350
-    idx = df['price'].between(min_price, max_price)
+    idx = df['price'].between(args.min_price, args.max_price)
     df = df[idx].copy()
 
     logger.info("Convert data type to datetime")
     df['last_review'] = pd.to_datetime(df['last_review'])
 
     logger.info("Convert dataframe to csv format")
-    df.to_csv("clean_sample.csv", index=False)
+    df.to_csv(args.input_artifact, index=False)
 
 
     logger.info("Logging artifact")
@@ -52,25 +50,45 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="This steps cleans the data")
 
-
     parser.add_argument(
-        "--parameter1", 
-        type=str ## INSERT TYPE HERE: str, float or int,
-        help="Input date to clean" ## INSERT DESCRIPTION HERE,
+        "--input_artifact", 
+        type=str, 
+        help="Input data to clean",
         required=True
     )
 
     parser.add_argument(
-        "--parameter2", 
-        type=float ## INSERT TYPE HERE: str, float or int,
-        help="Minimum value of price" ## INSERT DESCRIPTION HERE,
+        "--output_artifact", 
+        type=str, 
+        help="Output cleaned data",
         required=True
     )
 
     parser.add_argument(
-        "--parameter3", 
-        type=float ## INSERT TYPE HERE: str, float or int,
-        help="Max values of price" ## INSERT DESCRIPTION HERE,
+        "--output_type", 
+        type=str, 
+        help="Output data type",
+        required=False
+    )
+
+    parser.add_argument(
+        "--output_description", 
+        type=str, 
+        help="Output data description",
+        required=False
+    )
+
+    parser.add_argument(
+        "--min_price", 
+        type=float,
+        help="Minimum value of price",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_price", 
+        type=float, 
+        help="Max values of price",
         required=True
     )
 
