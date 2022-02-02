@@ -42,3 +42,4 @@ modeling:
     # DO not change the following
     oob_score: true
   random_forest_dir: "random_forest_dir" 
+  random_forest_export: "random_forest_export"

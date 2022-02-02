@@ -123,7 +123,7 @@ def go(config: DictConfig):
                     "stratify_by": config['modeling']['stratify_by'],
                     "max_tfidf_features": config['modeling']['max_tfidf_features'],
                     "rf_config": rf_config,
-                    "output_artifact": "random_forest_export",
+                    "output_artifact": config['modeling']["random_forest_export"],
                     "random_forest_dir": config['modeling']['random_forest_dir'],
                 },
             )
@@ -134,7 +134,14 @@ def go(config: DictConfig):
             # Implement here #
             ##################
 
-            pass
+            _ = mlflow.run(
+                os.path.join(hydra.utils.get_original_cwd(), "components", "test_random_forest"),
+                "main",
+                parameters={
+                    "mlflow_model": ":latest",
+                    "test_dataset": "testval_data.csv:latest",
+                },
+            )
 
 
 if __name__ == "__main__":
