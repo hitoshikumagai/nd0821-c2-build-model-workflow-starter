@@ -65,6 +65,7 @@ def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_th
 ########################################################
 def test_price_range(data: pd.DataFrame, min_price:float, max_price:float,label: str):
     """
-
+    Test if the "price" column to be predicted is within a certain range.
     """
-    assert data[label].between(min_price, max_price)
+    
+    assert data[label].between(min_price, max_price).all()

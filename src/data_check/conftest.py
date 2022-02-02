@@ -70,3 +70,13 @@ def max_price(request):
         pytest.fail("You must provide max_price")
 
     return float(max_price)
+
+
+@pytest.fixture(scope='session')
+def label(request):
+    label = request.config.option.label
+
+    if label is None:
+        pytest.fail("You must provide label")
+
+    return str(label)
