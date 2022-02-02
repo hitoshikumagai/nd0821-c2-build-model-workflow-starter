@@ -1,5 +1,6 @@
 name: components
 channels:
+  - python=3.8
   - conda-forge
   - defaults
 dependencies:
