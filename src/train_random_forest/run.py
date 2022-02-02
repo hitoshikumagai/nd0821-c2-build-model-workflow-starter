@@ -120,11 +120,10 @@ def go(args):
         metadata=args.rf_config,
     )
     artifact.add_dir("random_forest_dir")
-    run.log_artifact(artifact)
+
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
 
-    artifact.wait()
     ######################################
     # Here we save r_squared under the "r2" key
     run.summary['r2'] = r_squared
@@ -139,7 +138,8 @@ def go(args):
           "feature_importance": wandb.Image(fig_feat_imp),
         }
     )
-
+    run.log_artifact(artifact)
+    artifact.wait()
 
 def plot_feature_importance(pipe, feat_names):
     # We collect the feature importance for all non-nlp features first
@@ -172,8 +172,8 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
     # Build a pipeline with two steps:
     # 1 - A SimpleImputer(strategy="most_frequent") to impute missing values
     # 2 - A OneHotEncoder() step to encode the variable
-    non_ordinal_categorical_preproc = make_pipeline(SimpleImputer(strategy="most_frequent"), OneHotEncoder())
     # YOUR CODE HERE
+    non_ordinal_categorical_preproc = make_pipeline(SimpleImputer(strategy="most_frequent"), OneHotEncoder())
     ######################################
 
     # Let's impute the numerical columns to make sure we can handle missing values
