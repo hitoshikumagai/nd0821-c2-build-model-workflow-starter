@@ -25,6 +25,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.pipeline import Pipeline, make_pipeline
 
+from mlflow.models import infer_signature
+
 
 def delta_date_feature(dates):
     """
@@ -78,6 +80,7 @@ def go(args):
     # Fit the pipeline sk_pipe by calling the .fit method on X_train and y_train
     # YOUR CODE HERE
     ######################################
+    logger.info("Fitting")
     sk_pipe.fit(X_train, y_train)
 
     # Compute r2 and MAE
@@ -101,7 +104,14 @@ def go(args):
     # HINT: use mlflow.sklearn.save_model
     # YOUR CODE HERE
     ######################################
-    mlflow.sklearn.save_model(args.output_artifact)
+    signature = infer_signature(X_val, y_pred)
+    random_forest_dir = os.path.join(args.random_forest_dir, args.output_artifact)
+    mlflow.sklearn.save_model(
+        args.output_artifact,
+        args.random_forest_dir,
+        signature=signature,
+        input_example=X_val.iloc[:2],
+    )
     logger.info("Save model for random forest")
 
     ######################################
@@ -116,9 +126,9 @@ def go(args):
         args.output_artifact, 
         type="model_export",
         description='english',
-        rf_config=args.config['modeling']['random_forest']
+        metadata=args.rf_config,
     )
-    run.add_dir()
+    artifact.add_dir(random_forest_dir)
     run.log_artifact(artifact)
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
@@ -291,6 +301,13 @@ if __name__ == "__main__":
         "--output_artifact",
         type=str,
         help="Name for the output serialized model",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--random_forest_dir",
+        type=str,
+        help="Name for the random forest model save directory",
         required=True,
     )
 
