@@ -138,7 +138,7 @@ def go(config: DictConfig):
                 os.path.join(hydra.utils.get_original_cwd(), "components", "test_random_forest"),
                 "main",
                 parameters={
-                    "mlflow_model": ":latest",
+                    "mlflow_model": "random_forest_export:prod",
                     "test_dataset": "testval_data.csv:latest",
                 },
             )
