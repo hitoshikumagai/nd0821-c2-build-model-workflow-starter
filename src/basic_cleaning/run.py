@@ -28,15 +28,14 @@ def go(args):
     df = pd.read_csv(artifact_local_path)
 
     logger.info("Set Price min-max range")
-    idx = df['price'].between(args.min_price, args.max_price)
+    idx = df[args.label].between(args.min_price, args.max_price)
     df = df[idx].copy()
 
     logger.info("Convert data type to datetime")
-    df['last_review'] = pd.to_datetime(df['last_review'])
+    df[args.datatype_correction] = pd.to_datetime(df[args.datatype_correction])
 
     logger.info("Convert dataframe to csv format")
-    df.to_csv(args.input_artifact, index=False)
-
+    df.to_csv(args.output_artifact, index=False)
 
     logger.info("Logging artifact")
     artifact = wandb.Artifact(
@@ -44,7 +43,10 @@ def go(args):
         type=args.output_type,
         description=args.output_description,
      )
+    artifact.add_file(args.output_artifact)
     run.log_artifact(artifact)
+
+    artifact.wait()
 
 if __name__ == "__main__":
 
@@ -79,6 +81,13 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--label", 
+        type=str,
+        help="Label of prediction",
+        required=True
+    )
+
+    parser.add_argument(
         "--min_price", 
         type=float,
         help="Minimum value of price",
@@ -91,6 +100,14 @@ if __name__ == "__main__":
         help="Max values of price",
         required=True
     )
+
+    parser.add_argument(
+        "--datatype_correction", 
+        type=str, 
+        help="Column name to correct data type",
+        required=True
+    )
+
 
 
     args = parser.parse_args()

@@ -6,22 +6,28 @@ entry_points:
     parameters:
 
       input_artifact:
-        description: "Input data to clean" ## ADD DESCRIPTION
+        description: "Input data to clean" 
         type: string
 
       output_artifact:
-        description: "Output cleaned data" ## ADD DESCRIPTION
+        description: "Output cleaned data" 
         type: string
 
+      label:
+        description: "Label of prediction" 
+        type: string
 
       min_price:
-        description: "Minimum value of price" ## ADD DESCRIPTION
+        description: "Minimum value of price" 
         type: float
 
       max_price:
-        description: "Max values of price" ## ADD DESCRIPTION
+        description: "Max values of price"
         type: float
 
+      datatype_correction:
+        description: "Column name to correct data type"
+        type: string
 
     command: >-
-        python run.py  --input_artifact {input_artifact} --output_artifact {output_artifact}  --min_price {min_price}  --max_price {max_price} 
+        python run.py  --input_artifact {input_artifact} --output_artifact {output_artifact}  --label {label}  --min_price {min_price}  --max_price {max_price}    --datatype_correction {datatype_correction}
