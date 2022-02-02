@@ -102,7 +102,7 @@ def go(args):
     # YOUR CODE HERE
     ######################################
     signature = infer_signature(X_val, y_pred)
-    mlflow.sklearn.save_model(sk_pipe,"random_forest_dir")
+    mlflow.sklearn.save_model(sk_pipe,args.random_forest_dir)
     logger.info("Save model of random forest")
 
     ######################################
@@ -117,9 +117,9 @@ def go(args):
         args.output_artifact, 
         type="model_export",
         description='Random Forest pipeline export',
-        metadata=args.rf_config,
+        metadata=args.rf_config
     )
-    artifact.add_dir("random_forest_dir")
+    artifact.add_dir(args.random_forest_dir)
 
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
@@ -138,8 +138,6 @@ def go(args):
           "feature_importance": wandb.Image(fig_feat_imp),
         }
     )
-    run.log_artifact(artifact)
-    artifact.wait()
 
 def plot_feature_importance(pipe, feat_names):
     # We collect the feature importance for all non-nlp features first
