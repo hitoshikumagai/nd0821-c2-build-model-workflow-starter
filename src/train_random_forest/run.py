@@ -117,9 +117,10 @@ def go(args):
         args.output_artifact, 
         type="model_export",
         description='Random Forest pipeline export',
-        metadata=args.rf_config
+        metadata=rf_config
     )
     artifact.add_dir(args.random_forest_dir)
+    run.log_artifact(artifact)
 
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
