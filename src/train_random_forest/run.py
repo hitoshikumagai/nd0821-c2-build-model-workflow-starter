@@ -74,8 +74,6 @@ def go(args):
     sk_pipe, processed_features = get_inference_pipeline(rf_config, args.max_tfidf_features)
 
     # Then fit it to the X_train, y_train data
-    logger.info("Fitting")
-
     ######################################
     # Fit the pipeline sk_pipe by calling the .fit method on X_train and y_train
     # YOUR CODE HERE
@@ -94,7 +92,6 @@ def go(args):
     logger.info(f"MAE: {mae}")
 
     logger.info("Exporting model")
-
     # Save model package in the MLFlow sklearn format
     if os.path.exists("random_forest_dir"):
         shutil.rmtree("random_forest_dir")
@@ -105,14 +102,8 @@ def go(args):
     # YOUR CODE HERE
     ######################################
     signature = infer_signature(X_val, y_pred)
-    random_forest_dir = os.path.join(args.random_forest_dir, args.output_artifact)
-    mlflow.sklearn.save_model(
-        args.output_artifact,
-        args.random_forest_dir,
-        signature=signature,
-        input_example=X_val.iloc[:2],
-    )
-    logger.info("Save model for random forest")
+    mlflow.sklearn.save_model(sk_pipe,"random_forest_dir")
+    logger.info("Save model of random forest")
 
     ######################################
     # Upload the model we just exported to W&B
@@ -125,14 +116,15 @@ def go(args):
     artifact = wandb.Artifact(
         args.output_artifact, 
         type="model_export",
-        description='english',
+        description='Random Forest pipeline export',
         metadata=args.rf_config,
     )
-    artifact.add_dir(random_forest_dir)
+    artifact.add_dir("random_forest_dir")
     run.log_artifact(artifact)
     # Plot feature importance
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
 
+    artifact.wait()
     ######################################
     # Here we save r_squared under the "r2" key
     run.summary['r2'] = r_squared
@@ -140,7 +132,7 @@ def go(args):
     # YOUR CODE HERE
     ######################################
     run.summary['mae'] = mae
-    logging.info('r2 and mae is saved')
+    logging.info('r2 and mae is shown')
     # Upload to W&B the feture importance visualization
     run.log(
         {
@@ -244,7 +236,7 @@ def get_inference_pipeline(rf_config, max_tfidf_features):
     sk_pipe = Pipeline(
         steps=[
             ("preprocessor",preprocessor),
-            ("classifiers",random_Forest)
+            ("random_forest",random_Forest)
         ]
     ) 
 

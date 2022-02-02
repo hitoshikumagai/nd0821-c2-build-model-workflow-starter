@@ -41,4 +41,4 @@ modeling:
     max_features: 0.5
     # DO not change the following
     oob_score: true
-  random_forest_dir: "./random_forest_dir" 
+  random_forest_dir: "random_forest_dir" 
