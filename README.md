@@ -5,6 +5,9 @@ on the price of similar properties. Your company receives new data in bulk every
 to be retrained with the same cadence, necessitating an end-to-end pipeline that can be reused.
 
 In this project you will build such a pipeline.
+## Useful Links
+  * [GitHub](https://github.com/hitoshikumagai/nd0821-c2-build-model-workflow-starter)
+  * [Weight&Biasesnd](https://wandb.ai/hitoshikumagai/nyc_airbnb/overview?workspace=user-hitoshikumagai)
 
 ## Table of contents
 
@@ -30,8 +33,6 @@ In this project you will build such a pipeline.
   * [Release the pipeline](#release-the-pipeline)
   * [Train the model on a new data sample](#train-the-model-on-a-new-data-sample)
 - [Cleaning up](#cleaning-up)
-## External Link
-  * [Weight&Biasesnd](https://wandb.ai/hitoshikumagai/nyc_airbnb/overview?workspace=user-hitoshikumagai)
  
 ## Preliminary steps
 ### Fork the Starter kit
