@@ -63,7 +63,11 @@ def go(config: DictConfig):
                     "label": config['etl']['label'],
                     "min_price": config['etl']['min_price'],
                     "max_price": config['etl']['max_price'],
-                    "datatype_correction": config['etl']['datatype_correction']
+                    "datatype_correction": config['etl']['datatype_correction'],
+                    "longitude_west": config['etl']['longitude_west'],
+                    "longitude_east": config['etl']['longitude_east'],
+                    "latitude_south": config['etl']['latitude_south'],
+                    "latitude_north": config['etl']['latitude_north']
                 },
             )
 
