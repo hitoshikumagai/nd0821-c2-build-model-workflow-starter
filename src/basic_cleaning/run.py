@@ -31,8 +31,10 @@ def go(args):
     idx = df[args.label].between(args.min_price, args.max_price)
     df = df[idx].copy()
 
+    logger.info("Set Geolocation min-max range")
     idx = df['longitude'].between(args.longitude_west, args.longitude_east) \
         & df['latitude'].between(args.latitude_south, args.latitude_north)
+    df = df[idx].copy()
 
     logger.info("Convert data type to datetime")
     df[args.datatype_correction] = pd.to_datetime(df[args.datatype_correction])
@@ -126,14 +128,14 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--longitude_north", 
+        "--latitude_north", 
         type=float, 
         help="North end of latitude",
         required=True
     )
 
     parser.add_argument(
-        "--longitude_south", 
+        "--latitude_south", 
         type=float, 
         help="South end of latitude",
         required=True

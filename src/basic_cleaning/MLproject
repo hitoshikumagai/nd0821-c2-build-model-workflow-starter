@@ -46,9 +46,14 @@ entry_points:
         type: float
 
     command: >-
-        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  \ 
-        --label {label}  --min_price {min_price}  --max_price {max_price}  \  
-        --datatype_correction {datatype_correction}  \
-        --longitude_west {longitude_west}  --longitude_east {longitude_east}  \
-        --latitude_south {latitude_south}  --latitude_north {latitude_north}
+        python run.py --input_artifact {input_artifact} \
+                      --output_artifact {output_artifact} \
+                      --label {label} \
+                      --min_price {min_price} \
+                      --max_price {max_price} \
+                      --datatype_correction {datatype_correction} \
+                      --longitude_west {longitude_west} \
+                      --longitude_east {longitude_east} \
+                      --latitude_south {latitude_south} \
+                      --latitude_north {latitude_north}
 
