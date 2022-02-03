@@ -11,6 +11,10 @@ etl:
   min_price: 10  # dollars
   max_price: 350  # dollars
   datatype_correction: "last_review"
+  longitude_west: -74.25
+  longitude_east: -73.50
+  latitude_south: 40.5
+  latitude_north: 41.2
 data_check:
   label: "price"
   kl_threshold: 0.2

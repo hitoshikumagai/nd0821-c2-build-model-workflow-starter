@@ -31,6 +31,9 @@ def go(args):
     idx = df[args.label].between(args.min_price, args.max_price)
     df = df[idx].copy()
 
+    idx = df['longitude'].between(args.longitude_west, args.longitude_east) \
+        & df['latitude'].between(args.latitude_south, args.latitude_north)
+
     logger.info("Convert data type to datetime")
     df[args.datatype_correction] = pd.to_datetime(df[args.datatype_correction])
 
@@ -108,7 +111,33 @@ if __name__ == "__main__":
         required=True
     )
 
+    parser.add_argument(
+        "--longitude_west", 
+        type=float, 
+        help="Western edge of latitude",
+        required=True
+    )
 
+    parser.add_argument(
+        "--longitude_east", 
+        type=float, 
+        help="Eastern edge of latitude",
+        required=True
+    )
+
+    parser.add_argument(
+        "--longitude_north", 
+        type=float, 
+        help="North end of latitude",
+        required=True
+    )
+
+    parser.add_argument(
+        "--longitude_south", 
+        type=float, 
+        help="South end of latitude",
+        required=True
+    )
 
     args = parser.parse_args()
 

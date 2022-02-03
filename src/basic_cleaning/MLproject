@@ -29,5 +29,26 @@ entry_points:
         description: "Column name to correct data type"
         type: string
 
+      longitude_west:
+        description: "Western edge of latitude"
+        type: float
+
+      longitude_east:
+        description: "Eastern edge of latitude"
+        type: float
+
+      latitude_south:
+        description: "South end of latitude"
+        type: float
+
+      latitude_north:
+        description: "North end of latitude"
+        type: float
+
     command: >-
-        python run.py  --input_artifact {input_artifact} --output_artifact {output_artifact}  --label {label}  --min_price {min_price}  --max_price {max_price}    --datatype_correction {datatype_correction}
+        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  \ 
+        --label {label}  --min_price {min_price}  --max_price {max_price}  \  
+        --datatype_correction {datatype_correction}  \
+        --longitude_west {longitude_west}  --longitude_east {longitude_east}  \
+        --latitude_south {latitude_south}  --latitude_north {latitude_north}
+
